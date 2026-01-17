@@ -1,0 +1,6 @@
+fastapi[standard]
+uvicorn
+websockets
+python-dotenv
+google-generativeai
+pydantic

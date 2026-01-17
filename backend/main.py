@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -110,6 +110,62 @@ async def moderate_content(request: ModerateRequest):
     """Check if content is safe."""
     is_safe, reason = await moderation_service.moderate_content(request.text)
     return ModerateResponse(is_safe=is_safe, reason=reason if not is_safe else None)
+
+
+# Audio Processing Models
+class AudioProcessResponse(BaseModel):
+    success: bool
+    transcript: str = None
+    summary: str = None
+    error: str = None
+
+
+@app.post("/api/audio/process", response_model=AudioProcessResponse)
+async def process_audio(file: bytes = None):
+    """Process audio file: transcribe and summarize using Gemini 2.0."""
+    from fastapi import File, UploadFile
+    # Note: This is a simplified endpoint. In production, use UploadFile.
+    
+    if not file:
+        return AudioProcessResponse(success=False, error="No audio file provided")
+    
+    try:
+        transcript, summary = await llm_service.transcribe_and_summarize_audio(file, "audio/webm")
+        return AudioProcessResponse(
+            success=True,
+            transcript=transcript,
+            summary=summary
+        )
+    except Exception as e:
+        return AudioProcessResponse(success=False, error=str(e))
+
+
+# File upload version (better for production)
+from fastapi import File, UploadFile
+
+@app.post("/api/audio/upload")
+async def upload_and_process_audio(file: UploadFile = File(...)):
+    """Upload audio file for transcription and summarization."""
+    
+    if not file.content_type.startswith("audio/"):
+        raise HTTPException(status_code=400, detail="File must be an audio file")
+    
+    audio_bytes = await file.read()
+    
+    try:
+        transcript, summary = await llm_service.transcribe_and_summarize_audio(
+            audio_bytes, 
+            file.content_type
+        )
+        return {
+            "success": True,
+            "transcript": transcript,
+            "summary": summary,
+            "filename": file.filename
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 
 @app.get("/api/rooms/{room_id}")
 async def get_room(room_id: str):

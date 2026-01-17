@@ -12,6 +12,7 @@ interface RoomData {
     title: string;
     topic: string;
     opening_question?: string;
+    audioUrl?: string;
     color?: string;
 }
 
@@ -44,7 +45,8 @@ export const SpatialCanvas = ({ roomId, roomData, onExit }: SpatialCanvasProps) 
                     x: window.innerWidth / 2,
                     y: window.innerHeight / 2,
                     color: `hsl(${hue}, 80%, 60%)`,
-                    text: roomData.opening_question || roomData.topic
+                    text: roomData.opening_question || roomData.topic,
+                    audioUrl: roomData.audioUrl // Pass the recorded audio!
                 }
             ]);
         } else if (roomId === 'room-a') {
@@ -63,19 +65,16 @@ export const SpatialCanvas = ({ roomId, roomData, onExit }: SpatialCanvasProps) 
         setMousePos({ x: e.clientX, y: e.clientY });
         // TODO: Send to WebSocket
     };
+    // Handle reply from ReplyModal - now receives AI-processed audioUrl and summary
+    const handleReply = (audioUrl: string, summary: string) => {
+        const newNodeId = `reply-${Date.now()}`; // Unique ID
 
-    const handleReply = (blob: Blob) => {
-        const url = URL.createObjectURL(blob);
-        const newNodeId = (nodes.length + 1).toString();
-
-        // Offset from Parent
-        // If we are focused on a node, that is the parent. 
-        // If not, we fall back to user position (shouldn't happen due to logic)
+        // Find the parent node we're replying to
         const parentNode = nodes.find(n => n.id === focusedNodeId);
         const originX = parentNode ? parentNode.x : mousePos.x;
         const originY = parentNode ? parentNode.y : mousePos.y;
 
-        // Spawn at a fixed distance (400px) at a random angle - increased to prevent overlap
+        // Spawn at a fixed distance (400px) at a random angle
         const angle = Math.random() * Math.PI * 2;
         const offset = 400;
 
@@ -88,8 +87,8 @@ export const SpatialCanvas = ({ roomId, roomData, onExit }: SpatialCanvasProps) 
             x: originX + Math.cos(angle) * offset,
             y: originY + Math.sin(angle) * offset,
             color: randomColor,
-            text: "User Reply",
-            audioUrl: url,
+            text: summary, // AI-generated summary from backend
+            audioUrl: audioUrl,
             parentId: focusedNodeId || undefined
         };
 
@@ -120,7 +119,7 @@ export const SpatialCanvas = ({ roomId, roomData, onExit }: SpatialCanvasProps) 
     useEffect(() => {
         const CLOSE_THRESHOLD = 250;
         const ABANDON_THRESHOLD = 400; // Must move this far to break momentum lock
-        const MOMENTUM_LOCK_PERCENT = 50; // Lock in after 50% progress
+        const MOMENTUM_LOCK_PERCENT = 20; // Lock in after 20% progress (faster lock)
 
         // Get all nodes within close threshold and find the closest
         const nodesWithinRange = Object.entries(distances)

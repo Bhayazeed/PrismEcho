@@ -8,6 +8,7 @@ interface RoomData {
   title: string;
   topic: string;
   opening_question?: string;
+  audioUrl?: string;
   color?: string;
 }
 

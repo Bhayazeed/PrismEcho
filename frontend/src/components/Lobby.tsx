@@ -8,6 +8,7 @@ interface Room {
     title: string;
     topic: string;
     opening_question?: string;
+    audioUrl?: string;
     participants: number;
     color: string;
 }
@@ -40,12 +41,13 @@ export const Lobby = ({ onJoin }: LobbyProps) => {
 
     const allRooms = [...presetRooms, ...customRooms];
 
-    const handleRoomCreated = (room: { id: string; title: string; topic: string; opening_question: string }) => {
+    const handleRoomCreated = (room: { id: string; title: string; topic: string; opening_question: string; audioUrl?: string }) => {
         const newRoom: Room = {
             id: room.id,
             title: room.title,
             topic: room.topic,
             opening_question: room.opening_question,
+            audioUrl: room.audioUrl,
             participants: 0,
             color: 'from-emerald-500 to-teal-400'
         };

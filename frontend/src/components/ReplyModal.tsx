@@ -212,7 +212,7 @@ export const ReplyModal = ({ isOpen, onClose, nodeId, onReply }: ReplyModalProps
                                     onClick={isRecording ? stopRecording : startRecording}
                                     className={`w-20 h-20 border-brutal-thick flex items-center justify-center transition-all shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-brutal-sm ${isRecording
                                         ? 'bg-brutal-pink'
-                                        : 'bg-brutal-white hover:bg-brutal-yellow'
+                                        : 'bg-brutal-yellow'
                                         }`}
                                 >
                                     {isRecording ? <Square fill="currentColor" size={32} /> : <Mic size={40} strokeWidth={2.5} />}

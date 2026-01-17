@@ -203,7 +203,7 @@ export const CreateRoomModal = ({ isOpen, onClose, onRoomCreated }: CreateRoomMo
                                     {!audioBlob ? (
                                         <button
                                             onClick={isRecording ? stopRecording : startRecording}
-                                            className={`px-6 py-3 border-brutal shadow-brutal flex items-center gap-2 font-bold uppercase hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-brutal-sm transition-all ${isRecording ? 'bg-brutal-pink' : 'bg-brutal-white hover:bg-brutal-yellow'
+                                            className={`px-6 py-3 border-brutal shadow-brutal flex items-center gap-2 font-bold uppercase hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-brutal-sm transition-all ${isRecording ? 'bg-brutal-pink' : 'bg-brutal-yellow'
                                                 }`}
                                         >
                                             {isRecording ? (

@@ -106,7 +106,7 @@ export const Lobby = ({ onJoin }: LobbyProps) => {
                                     <HelpCircle className="text-brutal-black" size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-brutal-black mb-3 uppercase">How to Use PrismEcho</h3>
+                                    <h3 className="text-xl font-bold text-brutal-black mb-3 uppercase">How to Use SpeakBox</h3>
                                     <div className="text-brutal-black text-sm space-y-2 font-medium">
                                         <p>🎧 <strong>Move cursor</strong> → Navigate the audio space</p>
                                         <p>⏱️ <strong>Stay near a node</strong> → Unlock reply after 3 seconds</p>
@@ -128,10 +128,10 @@ export const Lobby = ({ onJoin }: LobbyProps) => {
                 className="z-10 text-center mb-8"
             >
                 <h1 className="text-7xl font-bold text-brutal-black mb-4 uppercase tracking-tight">
-                    Prism<span className="bg-brutal-blue text-brutal-white px-2">Echo</span>
+                    Speak<span className="bg-brutal-blue text-brutal-white px-2">Box</span>
                 </h1>
                 <p className="text-xl text-brutal-black max-w-lg mx-auto font-medium">
-                    Spatial Negotiation Interface<br />
+                    Spatial Debate Platform<br />
                     <span className="bg-brutal-yellow px-2 py-1 inline-block mt-2 border-2 border-brutal-black">Listen deeper before you reply.</span>
                 </p>
             </motion.div>
@@ -180,7 +180,7 @@ export const Lobby = ({ onJoin }: LobbyProps) => {
                     >
                         <div className="h-full flex flex-col justify-between">
                             <div>
-                                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-3 bg-brutal-white border-2 border-brutal-black px-2 py-1">
+                                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-3 bg-brutal-black text-brutal-white border-2 border-brutal-black px-2 py-1">
                                     <Mic size={12} />
                                     {room.id.startsWith('custom-') ? 'Custom' : 'Live'}
                                 </div>
@@ -197,7 +197,7 @@ export const Lobby = ({ onJoin }: LobbyProps) => {
                                     <Users size={16} strokeWidth={3} />
                                     <span>{room.participants} listeners</span>
                                 </div>
-                                <div className="w-12 h-12 bg-brutal-white border-brutal flex items-center justify-center group-hover:bg-brutal-black group-hover:text-brutal-white transition-colors">
+                                <div className="w-12 h-12 bg-brutal-black border-brutal flex items-center justify-center text-brutal-white">
                                     <ArrowRight size={24} strokeWidth={3} />
                                 </div>
                             </div>

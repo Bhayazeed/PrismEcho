@@ -325,7 +325,7 @@ export const SpatialCanvas = ({ roomId, roomData, username, onExit }: SpatialCan
                                     <p className="text-xs text-center opacity-50">Listening... {Math.round(focusTimer)}%</p>
                                 )}
                                 <div className="mt-2 text-[10px] text-center text-white/30 uppercase tracking-widest">
-                                    {canReply ? 'Press Space to Reply' : 'Hold Position'}
+                                    {canReply ? 'Press Space' : 'Press R to reply instantly'}
                                 </div>
                             </motion.div>
                         </>

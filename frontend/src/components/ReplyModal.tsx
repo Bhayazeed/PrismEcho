@@ -46,6 +46,40 @@ export const ReplyModal = ({ isOpen, onClose, nodeId, onReply }: ReplyModalProps
         }
     }, [isOpen]);
 
+    // Keyboard hotkeys
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // R: Toggle recording (only when not processing and no blob yet)
+            if (e.code === 'KeyR' && !isProcessing) {
+                e.preventDefault();
+                if (!audioBlob) {
+                    if (isRecording) {
+                        stopRecording();
+                    } else {
+                        startRecording();
+                    }
+                }
+            }
+
+            // Enter: Send when recording is done
+            if (e.code === 'Enter' && audioBlob && !isProcessing) {
+                e.preventDefault();
+                handleSend();
+            }
+
+            // Escape: Close modal (if not processing)
+            if (e.code === 'Escape' && !isProcessing) {
+                e.preventDefault();
+                onClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, isRecording, audioBlob, isProcessing]);
+
     const startRecording = async () => {
         try {
             setError(null);
@@ -210,9 +244,24 @@ export const ReplyModal = ({ isOpen, onClose, nodeId, onReply }: ReplyModalProps
                             )}
                         </div>
 
+                        {/* Hotkey hints */}
+                        <div className="flex justify-center gap-4 mt-4 text-[10px] text-white/40 uppercase tracking-wider">
+                            <span className="flex items-center gap-1">
+                                <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">R</kbd> Record
+                            </span>
+                            {audioBlob && (
+                                <span className="flex items-center gap-1">
+                                    <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">Enter</kbd> Send
+                                </span>
+                            )}
+                            <span className="flex items-center gap-1">
+                                <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">Esc</kbd> Close
+                            </span>
+                        </div>
+
                         {/* AI Info */}
-                        <p className="text-center text-white/30 text-xs mt-6">
-                            Powered by Gemini AI • Your voice will be transcribed & summarized
+                        <p className="text-center text-white/30 text-xs mt-4">
+                            Powered by Gemini AI
                         </p>
                     </motion.div>
                 </div>

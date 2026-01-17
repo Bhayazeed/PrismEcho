@@ -184,10 +184,14 @@ This project is for educational and portfolio purposes.
 
 ## 👤 Author
 
-Built with ❤️ and lots of ☕
+**100% vibe coded** 🎵✨ — No detailed planning, just vibes, coffee, and letting the code flow.
+
+Built with ❤️, lots of ☕, good music, and AI as my pair programmer.
 
 ---
 
 <p align="center">
-  <strong>PrismEcho</strong> - Where every voice echoes.
+  <strong>SpeakBox</strong> — Where every voice echoes.
+  <br/>
+  <sub>✨ Vibe coded with love ✨</sub>
 </p>
